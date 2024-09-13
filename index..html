@@ -1,0 +1,199 @@
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .hamburger-menu {
+            display: none;
+        }
+        .hamburger-menu.active {
+            display: block;
+        }
+        .doing{
+            background-image: url(../food-background-food-menu-backround-photo.jpg);
+            text-align: center;
+            background-size: cover;
+            padding: 150px 0;
+            margin: 0px 0;
+            margin: 0;
+            
+        }
+        h3 {
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        p{
+            color:white;
+            font-size: 15px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        #search-input{
+            width: 200;
+            height: 40;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-orange-500 text-white p-4 flex justify-between items-center">
+        <div class="text-xl font-bold cursor-pointer" id="meal-finder">MEAL FINDER</div>
+        <div class="text-2xl cursor-pointer" id="hamburger-icon">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <div class="hamburger-menu fixed top-0 right-0 w-64 h-full bg-white shadow-lg p-4">
+        <div class="flex justify-between items-center mb-4">
+            <div class="text-xl font-bold">Categories</div>
+            <div class="text-2xl cursor-pointer" id="close-icon">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <ul id="category-list" class="space-y-2">
+            <!-- Categories will be populated here -->
+        </ul>
+    </div>
+
+    <main class="igms-1">
+        <div class="doing justify-center mb-4">
+            <input type="text" id="search-input" class="border p-2 w-1/2 rounded-full" placeholder="Search for a meal... ">
+            <button id="search-button" class="bg-orange-500 text-white p-2 rounded-full ml-2">
+                <i class="fas fa-search"></i>
+            </button>
+            <h3>What are your favorite cuisunes</h3>
+            <p>PERSONALIZE YOUR EXPERIENCE</p>
+        </div>
+        <div id="meal-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <!-- Meals will be populated here -->
+        </div>
+        <div id="meal-details" class="mt-4">
+            <!-- Meal details will be populated here -->
+        </div>
+        <h2 class="text-2xl font-bold mt-8 mb-4">Categories</h2>
+        <div id="category-section" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <!-- Categories with images will be populated here -->
+        </div>
+    </main>
+
+    <script>
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const hamburgerMenu = document.querySelector('.hamburger-menu');
+        const categoryList = document.getElementById('category-list');
+        const mealList = document.getElementById('meal-list');
+        const mealDetails = document.getElementById('meal-details');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const categorySection = document.getElementById('category-section');
+        const mealFinder = document.getElementById('meal-finder');
+
+        hamburgerIcon.addEventListener('click', () => {
+            hamburgerMenu.classList.add('active');
+        });
+
+        closeIcon.addEventListener('click', () => {
+            hamburgerMenu.classList.remove('active');
+        });
+
+        mealFinder.addEventListener('click', () => {
+            window.scrollTo({
+                top: categorySection.offsetTop,
+                behavior: 'smooth'
+            });
+        });
+
+        async function fetchCategories() {
+            const response = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
+            const data = await response.json();
+            const categories = data.categories;
+            categories.forEach(category => {
+                const li = document.createElement('li');
+                li.classList.add('cursor-pointer', 'hover:bg-gray-200', 'p-2');
+                li.textContent = category.strCategory;
+                li.addEventListener('click', () => fetchMealsByCategory(category.strCategory));
+                categoryList.appendChild(li);
+
+                const div = document.createElement('div');
+                div.classList.add('border', 'p-4', 'bg-white', 'cursor-pointer');
+                div.innerHTML = `
+                    <img src="${category.strCategoryThumb}" alt="${category.strCategory}" class="w-full mb-2">
+                    <div class="text-center font-bold">${category.strCategory}</div>
+                `;
+                div.addEventListener('click', () => fetchMealsByCategory(category.strCategory));
+                categorySection.appendChild(div);
+            });
+        }
+
+        async function fetchMealsByCategory(category) {
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+            const data = await response.json();
+            const meals = data.meals;
+            mealList.innerHTML = '';
+            mealDetails.innerHTML = '';
+            const categoryHeader = document.createElement('div');
+            categoryHeader.classList.add('col-span-full', 'text-center', 'bg-orange-500', 'text-white', 'p-2', 'rounded');
+            categoryHeader.textContent = `Items in ${category}`;
+            mealList.appendChild(categoryHeader);
+            meals.forEach(meal => {
+                const div = document.createElement('div');
+                div.classList.add('border', 'p-4', 'bg-white', 'cursor-pointer');
+                div.innerHTML = `
+                    <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="w-full mb-2">
+                    <div class="text-center font-bold">${meal.strMeal}</div>
+                `;
+                div.addEventListener('click', () => fetchMealDetails(meal.idMeal));
+                mealList.appendChild(div);
+            });
+        }
+
+        async function fetchMealDetails(id) {
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+            const data = await response.json();
+            if (data.meals) {
+            const meal = data.meals[0];
+            mealList.innerHTML = '';
+            mealDetails.innerHTML = `
+                <div class="border p-4 bg-white flex">
+                    <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="w-1/2 mr-4">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">${meal.strMeal}</h2>
+                        <p>${meal.strInstructions}</p>
+                        <ul class="list-disc pl-5">
+                            ${meal.strInstructions.split('. ').map(instruction => `<li>${instruction}</li>`).join('')}
+                        </ul>
+                    
+                    </div>
+                </div>
+            `;
+        } else {
+             mealDetails.textContent = 'No meal found';
+                    }
+    }
+
+        searchButton.addEventListener('click', async () => {
+            const query = searchInput.value;
+            const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+            const data = await response.json();
+            const meals = data.meals;
+            mealList.innerHTML = '';
+            mealDetails.innerHTML = '';
+            meals.forEach(meal => {
+                const div = document.createElement('div');
+                div.classList.add('border', 'p-4', 'bg-white', 'cursor-pointer');
+                div.innerHTML = `
+                    <img src="${meal.strMealThumb}" alt="${meal.strMeal}" class="w-full mb-2">
+                    <div class="text-center font-bold">${meal.strMeal}</div>
+                `;
+                div.addEventListener('click', () => fetchMealDetails(meal.idMeal));
+                mealList.appendChild(div);
+            });
+        });
+
+        fetchCategories();
+    </script>
+</body>
+</html>
