@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meals Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gIHRqZ0gaNUVZ57afZpqeXk" crossorigin="anonymous"></script>
+    <style>
+        .navbar{
+            background-color: orange;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0%;
+            z-index: 1030;
+            font-weight: bolder;
+            font-style: italic;
+        }
+        .background{
+            display: flex;
+            flex-direction: column;  
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            width: 100%;
+            background-image: url("../food-background-food-menu-backround-photo.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        #search_icon{
+            border: 2px solid white ;
+            border-radius: 50px;
+            padding: 8px;
+            background-color: orange;
+            color: white; 
+        }
+        .background p{
+            color: white;
+            text-align: center;
+        } 
+        #search_icon:hover{
+            background-color: white;
+            color: chocolate
+        }
+        #navbarSupportedContent{
+            background-color: white;
+            padding: 10px;
+            position: absolute;
+            top: 50px;
+            right: 30px;
+            width: 200px;
+            display: none;
+        }
+        #navbarSupportedContent li{
+              margin-bottom: 10px;
+              border-bottom: 1px solid rgb(204, 204, 204);
+              background-color: white;
+              padding-left: 10px;
+              width: 100%;
+        }
+        #navbarSupportedContent li a:hover{
+            color: #ccc;
+            font-weight: bolder;
+        }
+        #close-btn{
+          padding-left: 170px;
+          font-size: 20px;
+          color: rgb(9, 8, 8);
+          cursor: pointer;
+          background-color: white;
+        }
+        #navbarSupportedContent.show {
+    display: block;
+}
+#category-description {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+.category-description-text {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border: 2px solid orange;
+    padding: 5px;
+}
+.category-images {
+  display: grid;
+  grid-template-columns: repeat(5, 3fr);
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.category-images div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-images img {
+  width: 350px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.category-images p {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 10px;
+  text-align:start;
+}
+
+#categories {
+  padding: 20px;
+  text-align: start; 
+}
+
+#categories h2 {
+  padding-bottom: 5px;
+  border-bottom: 5px solid orange;
+  text-decoration-color: orange; 
+  width: 200px;
+}
+
+#categories img {
+  background-color:ghostwhite;
+  display: inline-block;
+  display: flex;
+  justify-content: space-around;
+  margin: 12px;
+  transition: transform 0.2s ease; 
+}
+
+#categories img:hover {
+  transform: scale(1.2); 
+}
+
+#category-list li {
+  display: inline-block;
+  margin: 10px;
+}
+
+#category-list a {
+  text-decoration: none;
+  color: black;
+}
+
+#category-list a:hover {
+  color: #fcfbfb;
+  font-weight: bolder;
+}
+.meal-info-container {
+  float: left;
+  width: 100%;
+}
+
+.meal-description {
+  margin-top: 20px;
+  clear: both;
+}
+
+.meal-details {
+  float: left;
+  width: 25%;
+  margin-left: 5%;
+}
+
+.meal-details img {
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.meal-info {
+  flex: 1;
+  margin: 20px;
+}
+
+.ingredients {
+  margin-top: 20px;
+}
+
+.ingredients ol {
+    display: grid;
+    gap: 20px;
+    justify-content: space-between;
+  }
+.tag {
+  border: 1px solid orange;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+.tags li {
+  margin-bottom: 10px;
+}
+.measurements {
+    column-count: 2;
+  }
+  .measurements p {
+    margin-bottom: 10px; 
+  }
+  .ingredients ol {
+  counter-reset: li;
+  list-style: none;
+}
+
+.ingredients ol li {
+  counter-increment: li;
+}
+
+.ingredients ol li::before {
+  content: counter(li);
+  border: 1px solid white;
+  padding: 2px 4px;
+  border-radius: 50%;
+  display: ;
+  width: 30px;
+  text-align: center;
+  margin: 3px;
+  background-color: rgb(61, 145, 255);
+}
+  
+  </style>
+</head>
+  <body>
+      <nav class="navbar">
+          <div class="container">
+              <a href="#" class="navbar-brand text-white">
+                  <i class="fa-solid fa-utensils"></i> Meal Finder
+              </a>
+              <button class="navbar-toggler text-white" type="button" id="menu-btn">
+                  <span class="navbar-toggler-icon text-white" style="filter:  brightness(0) invert(1);" ></span>
+              </button>
+              <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                  <ul>
+                      <li id="close-btn"><i class="fa-solid fa-xmark"></i></li>
+                      <li id="category-list"></li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <div class="background">
+          <div class="search-container">
+              <input type="text" class="search_bar" placeholder="Search recipes here ..."> 
+              <span><i class="fa-solid fa-magnifying-glass" id="search_icon" onclick="searchMeals()"></i></span>
+          </div>
+          <p><span class="text">What are your favorite cuisines?</span></br>
+              PERSONALIZE YOUR EXPERIENCE
+          </p>
+      </div>
+      <div class="meal-info-container"></div>
+      <div id="category-description"></div>
+      <div id="categories">
+          <h2>CATEGORIES</h2>
+      </div>
+      
+      <script>
+        document.querySelector('.navbar-brand').addEventListener('click', function() {
+          window.location.reload();
+        });
+      
+        // fetching the info 
+        fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
+          .then(res => res.json())
+          .then(data => {
+            let categoriesHtml = '<h2>CATEGORIES</h2>';
+            let html = '';
+            data.categories.forEach(category => {
+              // fetching the images to display in category section
+              categoriesHtml += `
+                <div style="position: relative; display: inline-block; margin: 10px;">
+                  <img src="${category.strCategoryThumb}" alt="${category.strCategory}" onclick="getMealsByCategory('${category.strCategory}')">
+                  <div style="position: absolute; top: 5px; right: 5px; background-color: orange; color: white; padding: 2px 5px; font-size: 12px; font-weight: bolder; border-radius: 15px;">${category.strCategory}</div>
+                </div>
+              `;
+              // fetching the category names to display in toggle menu
+              html += `
+                <li style="background-color: white;">
+                  <a href="#" style="color: black;" onclick="getMeals('${category.strCategory}')">${category.strCategory}</a>
+                </li>
+              `;
+            });
+            document.getElementById('categories').innerHTML = categoriesHtml;
+            document.getElementById('category-list').innerHTML = html;
+          });
+      
+        // toggle menu functionality
+        document.getElementById('menu-btn').addEventListener('click', function() {
+          document.getElementById('navbarSupportedContent').classList.toggle('show');
+        });
+      
+        // close button functionality for toggle menu
+        document.getElementById('close-btn').addEventListener('click', function() {
+          document.getElementById('navbarSupportedContent').classList.remove('show');
+        });
+      
+        // function to get meals by category
+        function getMeals(category) {
+          fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
+            .then(res => res.json())
+            .then(data => {
+              const categoryData = data.categories.find(cat => cat.strCategory === category);
+              if (categoryData) {
+                const description = categoryData.strCategoryDescription;
+                let categoryDescriptionHtml = `
+                  <h2>Category: ${category}</h2> <!-- Added heading for category -->
+                  <div class="category-description-text">${description}</div>
+                  <h3 style="text-decoration-color: orange; border-bottom: 5px solid orange; padding-bottom: 5px; width: 100px; display: inline-block;">Meals</h3>
+                  <div class="category-images">
+                `;
+      
+                fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+                  .then(res => res.json())
+                  .then(data => {
+                    data.meals.forEach(meal => {
+                      categoryDescriptionHtml += `
+                        <div class="category-images">
+                          <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                          <p>${meal.strMeal}</p>
+                        </div>
+                      `;
+                    });
+                    categoryDescriptionHtml += `</div>`;
+                    document.getElementById('category-description').innerHTML = categoryDescriptionHtml;
+                  });
+              }
+            });
+        }
+      
+        function searchMeals() {
+          const searchQuery = document.querySelector('.search_bar').value.trim();
+          if (searchQuery) {
+            fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchQuery}`)
+              .then(res => res.json())
+              .then(data => {
+                let mealHtml = '';
+                if (data.meals) {
+                  mealHtml += `
+                    <h2>Search Results for "${searchQuery}"</h2> <!-- Added heading for search results -->
+                    <h3 style="text-decoration-color: orange; border-bottom: 5px solid orange; padding-bottom: 5px; width: 100px; display: inline-block;">Meals</h3>
+                    <div class="category-images">
+                  `;
+                  data.meals.forEach(meal => {
+                    mealHtml += `
+                      <div>
+                        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                        <p>${meal.strMeal}</p>
+                      </div>
+                    `;
+                  });
+                  mealHtml += `</div>`;
+                } else {
+                  mealHtml = `<p style="color: red; font-weight: bolder; font-size: 50px">No Meals Found!</p>`;
+                }
+                document.getElementById('category-description').innerHTML = mealHtml;
+              });
+          }
+        }
+      
+        function getMealsByCategory(category) {
+          fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
+            .then(res => res.json())
+            .then(data => {
+              const categoryDescription = data.categories.find(cat => cat.strCategory === category).strCategoryDescription;
+              
+              fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+                .then(res => res.json())
+                .then(data => {
+                  let mealHtml = '';
+                  mealHtml += `
+                    <h2>Meals in ${category} Category</h2> <!-- Added heading for meals by category -->
+                    <p style="border: 2px solid orange; margin: 50px; padding: 5px">${categoryDescription}</p>
+                    <h3 style="text-decoration-color: orange; border-bottom: 5px solid orange; padding-bottom: 5px; width: 100px; display: inline-block;">Meals</h3>
+                    <div class="category-images">
+                  `;
+                  data.meals.forEach(meal => {
+                    mealHtml += `
+                      <div>
+                        <img src="${meal.strMealThumb}" alt="${meal.strMeal}" onclick="getMealDetails('${meal.idMeal}')">
+                        <p><a href="#" style="color: black;">${meal.strMeal}</a></p>
+                      </div>
+                    `;
+                  });
+                  mealHtml += `</div>`;
+                  document.getElementById('category-description').innerHTML = mealHtml;
+                });
+            });
+        }
+      
+        function getMealDetails(idMeal) {
+          fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`)
+            .then(res => res.json())
+            .then(data => {
+              const meal = data.meals[0];
+              const ingredients = [];
+              const measures = [];
+              for (let i = 1; i <= 20; i++) {
+                if (meal[`strIngredient${i}`]) {
+                  let measure = meal[`strMeasure${i}`] ? meal[`strMeasure${i}`] : 'N/A';
+                  if (measure !== 'N/A') {
+                    ingredients.push(meal[`strIngredient${i}`]);
+                    measures.push(measure);
+                  }
+                }
+              }
+              const tags = meal.strTags ? meal.strTags.split(',') : [];
+              let mealDetailsHtml = `
+                <h2>Meal Details: ${meal.strMeal}</h2> <!-- Added heading for meal details -->
+                <div class="meal-info-container">
+                  <div class="meal-info">
+                    <h2 style="color: white; background-color: orange"><i class="fa-solid fa-house-chimney" style="padding: 5px;"></i><i class="fa-solid fa-angles-right"></i>${meal.strMeal}</h2>
+                    <div class="image-category-container">
+                      <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+                      <div class="info-container" style="display: inline-block; vertical-align: top;">
+                        <div class="category-source-tags" style="background-color: ghostwhite; padding: 10px;">
+                          <h3 style="color: orange;">${meal.strMeal} <hr></h3>
+                          <p>Category: ${meal.strCategory}</p>
+                          <p>Source: ${meal.strSource}</p>
+                          ${tags.length > 0 ? `
+                            <p>Tags: ${tags.map(tag => `<span class="tag">${tag}</span>`).join(' ')}</p>
+                          ` : ''}
+                          <div class="ingredients" style="background-color: orange; padding: 10px; color: white;">
+                            <h3>Ingredients:</h3>
+                            <ol class="ingredients">
+                              ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                            </ol>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="measures" style="background-color: ghostwhite; padding: 10px;">
+                      <h3>Measures:</h3>
+                      <div class="measurements">
+                        ${measures.map((measure, index) => `<p><i class="fas fa-utensil-spoon"></i> ${measure}</p>`).join('')}
+                      </div>
+                    </div>
+                  </div>
+                 <div class="meal-description">
+                <h3>Instructions:</h3>
+              <ol>
+              ${meal.strInstructions.split('.').map((instruction, index) => instruction.trim() ? `<li>${instruction.trim()}</li>` : '').join('')}
+             </ol>
+              </div>
+                </div>
+              `;
+              document.getElementById('category-description').innerHTML = mealDetailsHtml;
+            });
+        }
+      
+      </script>
+      
