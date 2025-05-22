@@ -48,7 +48,22 @@ Meal-Finder-Website/
 
 ## 📸 Screenshots
 
-*Include screenshots of your application here to showcase its functionality and design.*
+![Home]
+
+![Image](https://github.com/user-attachments/assets/9e4955a4-ad61-4496-a201-ffce4e988c44)
+
+[Categories]
+
+
+![Image](https://github.com/user-attachments/assets/05f951ba-eef2-48e7-9790-0fe571c9e49a)
+
+![Image](https://github.com/user-attachments/assets/0ba3f471-2e02-4ade-a66f-c1c93b81d232)
+
+[Details of the Food]
+
+![Image](https://github.com/user-attachments/assets/a7d4bc43-4873-4ac4-a023-23630071b690)
+
+![Image](https://github.com/user-attachments/assets/aeedfb76-6566-4ad7-bd82-6f1bb853746f)
 
 ## 📌 Future Enhancements
 
