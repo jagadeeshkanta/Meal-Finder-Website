@@ -2,6 +2,9 @@
 
 A simple and intuitive web application that allows users to search for meal recipes by entering keywords or fetching a random meal suggestion.
 
+🚀 Live Demo
+👉 https://meal-finder-website-six.vercel.app/
+
 ## 🔍 Features
 
 - **Search Meals**: Input a keyword to search for meals.
